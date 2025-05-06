@@ -1,21 +1,20 @@
-# Estudiante de ingeniería de sistemas, Universidad de Nariño.
-:books: I am learning python and javascript. I learnt java at university. I am doing a bootcamp to learn more about Web Development.
-GitHub profile [Javier1520](https://github.com/Javier1520)
 
-## :computer: Shell commands
+# MercadoLibre Scraper
 
-Command | Description
------- | -----------
-cal | displays a calendar for the current month
-mkdir | makes a directory
-uptime | displays the uptime of the server
-clear | clears the terminal
-ls | lists the directories of the current direction
+This script scrapes product data from [MercadoLibre Colombia](https://listado.mercadolibre.com.co/) based on a search term and page number.
 
-## :bulb: Useful alias commands
+## Extracted Fields
 
-Alias | Command | Description
-----|----|---
-ffind| alias findd="ls ~/ \| grep $1" | List the files and directories in the home directory then filter lines matching the given argument
-.\.| alias ..="cd .." | allows you to change to the root directory of the current directory
-h | alias h="history" | It is the command used to display the history of previously executed commands in the current terminal session.
+The following five fields are extracted from each product listing:
+
+| Field       | Description                                      | Fallback         |
+|-------------|--------------------------------------------------|------------------|
+| `title`     | The product title (`a.poly-component__title`)    | `'No title'`     |
+| `price`     | The product price (`span.andes-money-amount...`) | `'No price'`     |
+| `seller`    | Seller or store name (`span.poly-component__seller`) | `'No seller info'` |
+| `reviews`   | Text reviews count or rating (`span.andes-visually-hidden`) | `'No reviews'` |
+| `image_url` | URL of the product image (`img.poly-component__picture`) | `'No image'` |
+
+> Note: `image_url` is a direct link to the product image. All fields are scraped using BeautifulSoup and have safe fallback values to avoid `NoneType` errors.
+
+The function automatically handles pagination and user-agent headers.
